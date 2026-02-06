@@ -73,12 +73,17 @@ let teams = [...INITIAL_TEAMS];
 
 export async function fetchTeams(): Promise<Team[]> {
     await delay(500);
-    return [...teams].sort((a, b) => {
+    const sortedTeams = [...teams].sort((a, b) => {
         const aLevels = a.levelsCompleted.filter(Boolean).length;
         const bLevels = b.levelsCompleted.filter(Boolean).length;
         if (aLevels !== bLevels) return bLevels - aLevels;
         return b.remainingTime - a.remainingTime;
     });
+
+    return sortedTeams.map((team, index) => ({
+        ...team,
+        rank: index + 1
+    }));
 }
 
 export async function updateTeam(id: string, updates: Partial<Team>): Promise<void> {
@@ -106,6 +111,17 @@ export async function deductTime(teamId: string, seconds: number): Promise<void>
         if (t.id === teamId) {
             const newTime = Math.max(0, t.remainingTime - seconds);
             return { ...t, remainingTime: newTime, hintsUsed: t.hintsUsed + 1 };
+        }
+        return t;
+    });
+}
+
+export async function addTime(teamId: string, seconds: number): Promise<void> {
+    await delay(100);
+    teams = teams.map(t => {
+        if (t.id === teamId) {
+            const newTime = t.remainingTime + seconds;
+            return { ...t, remainingTime: newTime };
         }
         return t;
     });

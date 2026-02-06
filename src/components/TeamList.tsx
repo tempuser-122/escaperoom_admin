@@ -7,9 +7,10 @@ interface TeamListProps {
     teams: Team[];
     onUpdateStatus: (id: string, status: TeamStatus) => void;
     onDeductTime: (id: string) => void;
+    onAddTime: (id: string) => void;
 }
 
-export const TeamList: React.FC<TeamListProps> = ({ teams, onUpdateStatus, onDeductTime }) => {
+export const TeamList: React.FC<TeamListProps> = ({ teams, onUpdateStatus, onDeductTime, onAddTime }) => {
     const [sortField, setSortField] = useState<keyof Team>('rank');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
@@ -112,6 +113,14 @@ export const TeamList: React.FC<TeamListProps> = ({ teams, onUpdateStatus, onDed
                                             Resume
                                         </button>
                                     ) : null}
+                                    <button
+                                        className="btn btn-outline"
+                                        title="Increase Time (+5m)"
+                                        style={{ borderColor: '#00ff41', color: '#00ff41' }}
+                                        onClick={() => onAddTime(team.id)}
+                                    >
+                                        +5m
+                                    </button>
                                     <button
                                         className="btn btn-outline"
                                         title="Manual Penalty (-5m)"

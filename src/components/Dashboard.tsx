@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchTeams, updateTeam, deductTime } from '../api';
+import { fetchTeams, updateTeam, deductTime, addTime } from '../api';
 import type { Team, TeamStatus } from '../types';
 import { TeamList } from './TeamList';
 import { LogOut, ShieldAlert, RefreshCw } from 'lucide-react';
@@ -52,9 +52,6 @@ export const Dashboard: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Local timer decrement for smooth visual (optional, but requested "Real-time updates... refresh 5-10s")
-    // We can just rely on the 5s poll for now to avoid drift issues with mock data.
-
     const handleStatusUpdate = async (id: string, status: TeamStatus) => {
         await updateTeam(id, { status });
         loadData(); // Immediate refresh
@@ -63,6 +60,13 @@ export const Dashboard: React.FC = () => {
     const handleDeductTime = async (id: string) => {
         if (window.confirm("Deduct 5 minutes from this team?")) {
             await deductTime(id, 300); // 5 mins
+            loadData();
+        }
+    };
+
+    const handleAddTime = async (id: string) => {
+        if (window.confirm("Add 5 minutes to this team?")) {
+            await addTime(id, 300); // 5 mins
             loadData();
         }
     };
@@ -133,6 +137,7 @@ export const Dashboard: React.FC = () => {
                         teams={teams}
                         onUpdateStatus={handleStatusUpdate}
                         onDeductTime={handleDeductTime}
+                        onAddTime={handleAddTime}
                     />
                 )}
             </main>
