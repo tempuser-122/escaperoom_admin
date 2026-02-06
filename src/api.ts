@@ -48,7 +48,7 @@ const INITIAL_TEAMS: Team[] = [
         levelsCompleted: [false, false, false, false, false],
         levelStartTimes: [new Date().toISOString(), null, null, null, null],
         status: 'Paused',
-        remainingTime: 3000,
+        remainingTime: TOTAL_GAME_TIME_SECONDS,
         rank: 4,
         hintsUsed: 0
     },
@@ -56,7 +56,7 @@ const INITIAL_TEAMS: Team[] = [
         id: 't5',
         name: 'Firewall Breakers',
         currentLevel: 5,
-        levelsCompleted: [true, true, true, true, false],
+        levelsCompleted: [true, true, true, true, true],
         levelStartTimes: Array(5).fill(new Date().toISOString()),
         status: 'Completed',
         remainingTime: 500,

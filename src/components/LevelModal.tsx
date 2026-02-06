@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, CheckCircle, Circle } from 'lucide-react';
-import { LEVELS_COUNT } from '../types';
+import { LEVELS_COUNT, type TeamStatus } from '../types';
 
 interface LevelModalProps {
     isOpen: boolean;
@@ -8,9 +8,10 @@ interface LevelModalProps {
     teamName: string;
     levelsCompleted: boolean[];
     levelStartTimes: (string | null)[];
+    status?: TeamStatus;
 }
 
-export const LevelModal: React.FC<LevelModalProps> = ({ isOpen, onClose, teamName, levelsCompleted, levelStartTimes }) => {
+export const LevelModal: React.FC<LevelModalProps> = ({ isOpen, onClose, teamName, levelsCompleted, levelStartTimes, status }) => {
     if (!isOpen) return null;
 
     return (
@@ -37,7 +38,7 @@ export const LevelModal: React.FC<LevelModalProps> = ({ isOpen, onClose, teamNam
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
                     {Array.from({ length: LEVELS_COUNT }).map((_, index) => {
-                        const isCompleted = levelsCompleted[index];
+                        const isCompleted = levelsCompleted[index] || status === 'Completed';
 
                         return (
                             <div key={index} style={{

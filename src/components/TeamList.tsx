@@ -142,6 +142,7 @@ export const TeamList: React.FC<TeamListProps> = ({ teams, onUpdateStatus, onDed
                 teamName={selectedTeam?.name || ''}
                 levelsCompleted={selectedTeam?.levelsCompleted || []}
                 levelStartTimes={selectedTeam?.levelStartTimes || []}
+                status={selectedTeam?.status}
             />
 
             <style>{`
